@@ -4,8 +4,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
-    <h1>Hello World!</h1>
+    <p>
+        M² <input type="number" id="seuMetro">
+    </p>
+    <p>
+        Largura <input type="number" id="largura">
+        Comprimento <input type="number" id="comprimento">
+        <input type="button" value="Calcular" id="btnCalc">
+    </p>
+    <p class="" id="total">
+        Total...
+    </p>
+    
+    <script>
+
+        document.getElementById("btnCalc").addEventListener("click", () => {
+            const seuMetro = parseFloat(document.getElementById("seuMetro").value)
+            const largura = parseFloat(document.getElementById("largura").value)
+            const comprimento = parseFloat(document.getElementById("comprimento").value)
+
+        axios.post("http://localhost:8080/calcular", {
+
+           "seuMetro": seuMetro,
+           "larguraMetro": largura,
+            "comprimentoMetro": comprimento
+        })
+        .then(res =>{
+            const {totalMetro, precoTotal} = res.data;
+            document.getElementById("total").innerText = `Área: ${totalMetro.toFixed(2)}, Preço total: R$${precoTotal}`
+        })
+        .catch(err =>{
+            console.log(err);
+            document.getElementById("total").innerHTML = "BackEnd desligado"
+        })
+       
+        })
+
+        
+
+    </script>
 </body>
 </html>
